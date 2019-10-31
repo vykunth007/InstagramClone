@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btnSave, btnGetAllData;
     private TextView txtGetData;
     private  String allKickBoxers;
+    private Button btnTransition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnSave = findViewById(R.id.btnSave);
         txtGetData = findViewById(R.id.txtGetData);
         btnGetAllData = findViewById(R.id.btnGetAllData);
+        btnTransition = findViewById(R.id.btnNextActivity);
 
         txtGetData.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +66,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 allKickBoxers = "";
                 ParseQuery<ParseObject> queryAll = ParseQuery.getQuery("KickBoxer");
+
+                //queryAll.whereGreaterThan("Punch_Power", 100000);
+                queryAll.whereGreaterThanOrEqualTo("Punch_Power", 1000);
+                queryAll.setLimit(1);
+
                 queryAll.findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List<ParseObject> objects, ParseException e) {
@@ -92,23 +99,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btnSave.setOnClickListener(MainActivity.this);
 
-    }
-
-    /*public void helloWorld(View view){
-        ParseObject boxer = new ParseObject("Boxer");
-        boxer.put("Punch_Speed", 200);
-        boxer.saveInBackground(new SaveCallback() {
+        btnTransition.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void done(ParseException e) {
-                if (e == null) {
-                    Toast.makeText(MainActivity.this, "Created Object", Toast.LENGTH_SHORT).show();
+            public void onClick(View view) {
 
-                }
             }
         });
-        //we cannot use save() in main thread
 
-    } */
+    }
+
 
 
     @Override
